@@ -4,3 +4,5 @@ scipy
 pytts3
 elevenlabs
 python-dotenv
+fastapi
+uvicorn

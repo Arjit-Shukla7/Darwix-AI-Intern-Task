@@ -1,3 +1,4 @@
+import pyttsengine
 import ElevenLabsengine
 import ttsmapping
 import classification
@@ -5,10 +6,13 @@ from fastapi import FastAPI,HTTPException
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
+import os
+from dotenv import load_dotenv
 import ElevenLabsengine
 import classification
 import ttsmapping
+import pyttsengine
+
 
 app=FastAPI()
 
@@ -18,6 +22,7 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["X-Emotion"],
 )
 
 class TextRequest(BaseModel):
@@ -35,11 +40,19 @@ async def generate_audio(request:TextRequest):
     params=ttsmapping.tts_params(label,score)
     print(f"Parameters are:{params}")
 
-    audio_stream=ElevenLabsengine.bolnegai11(request.text,params)
-
+    audio_stream=pyttsengine.audio_stream(request.text,params)
+#    audio_stream=ElevenLabsengine.bolnegai11(request.text,params)
     if not audio_stream:
         raise HTTPException(status_code=500, detail="Audio generation failed")
     
-    return StreamingResponse(audio_stream,media_type="audio/mpeg")
+    return StreamingResponse(
+        audio_stream,
+        media_type="audio/wav",
+        headers={"X-Emotion":label}
+        )
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app,host="0.0.0.0",port=8000)
 
 

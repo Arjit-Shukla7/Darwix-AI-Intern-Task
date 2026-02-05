@@ -1,8 +1,11 @@
 import pyttsx3
+import os
+import uuid
 
 def bolnelagi(text,params):
     engine=pyttsx3.init()
 
+    filename=f"temp_{uuid.uuid4()}.wav"
     defa_rate=engine.getProperty('rate')
     defa_volumne=engine.getProperty('volume')
 
@@ -12,13 +15,15 @@ def bolnelagi(text,params):
     new_volume=defa_volumne*params.get('volume',1.0)
     engine.setProperty('volume',new_volume)
 
-    print(f"Speaking:'{text}")
+    engine.save_to_file(text,filename)
     engine.say(text)
     engine.runAndWait()
+    return filename
 
-if __name__ == "__main__":
-    sad_params = {"rate": 0.7, "pitch": 0.8, "volume": 0.7} 
-    bolnelagi("I am feeling a bit down today.", sad_params)
+def audio_stream(text,params):
+    file_path=bolnelagi(text,params)
 
-    happy_params = {"rate": 1.3, "pitch": 1.2, "volume": 1.0}
-    bolnelagi("But now I am super excited to be coding!", happy_params)
+    with open(file_path,"rb") as f:
+        yield from f
+    
+    os.remove(file_path)

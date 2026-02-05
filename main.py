@@ -1,6 +1,7 @@
 import ElevenLabsengine
 import classification
 import ttsmapping
+import pyttsengine
 
 def final():
     while True:
@@ -18,7 +19,8 @@ def final():
         print(f"parameters are : {tts_params}")
 
         print(f"Speaking...")
-        ElevenLabsengine.bolnegai11(text,tts_params)
+        pyttsengine.bolnelagi(text,tts_params)
+        #ElevenLabsengine.bolnegai11(text,tts_params)
 
 if __name__ == "__main__":
     final()
