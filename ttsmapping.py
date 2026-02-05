@@ -35,6 +35,11 @@ def tts_params(label,score=1):
     tar_rate=0.7+(0.6* arousal)
     tar_volume=0.7+(0.3*arousal)
     tar_pitch=1.0+(0.15*valence)
+    tar_stability = 0.9 - (0.5 * arousal)
+    tar_stability = max(0.3, min(target_stability, 1.0))
+    tar_style = 0.0 + (0.6 * arousal)
+    tar_speed = 0.8 + (0.4 * arousal).
+    tar_similarity = 0.75 if arousal < 0.8 else 0.6
 
     def mixing(target,default,weight):
         return (target*weight)+(default*(1-weight))
@@ -46,7 +51,12 @@ def tts_params(label,score=1):
     return {
         "rate":round(fin_rate,2),
         "pitch":round(fin_volume,2),
-        "volume":round(fin_volume,2)
+        "volume":round(fin_volume,2),
+        "stability": round(tar_stability, 2),
+        "similarity_boost": tar_similarity,
+        "style": round(tar_style, 2),
+        "speed": round(tar_speed, 2),
+        "use_speaker_boost": True
     }
 
 if __name__ == "__main__":
