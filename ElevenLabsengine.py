@@ -35,4 +35,4 @@ if __name__ == "__main__":
         "use_speaker_boost": True, 
         "speed": 1.15
     }
-    bolnegai11("I cannot believe you deleted the production database!", test_params)
+    play(bolnegai11("I cannot believe you deleted the production database!", test_params))

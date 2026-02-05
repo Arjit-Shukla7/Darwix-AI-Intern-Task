@@ -1,6 +1,6 @@
+import ElevenLabsengine
 import ttsmapping
 import classification
-from aiohttp.hdrs import ACCESS_CONTROL_ALLOW_CREDENTIALS
 from fastapi import FastAPI,HTTPException
 from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -35,4 +35,11 @@ async def generate_audio(request:TextRequest):
     params=ttsmapping.tts_params(label,score)
     print(f"Parameters are:{params}")
 
+    audio_stream=ElevenLabsengine.bolnegai11(request.text,params)
+
+    if not audio_stream:
+        raise HTTPException(status_code=500, detail="Audio generation failed")
     
+    return StreamingResponse(audio_stream,media_type="audio/mpeg")
+
+
