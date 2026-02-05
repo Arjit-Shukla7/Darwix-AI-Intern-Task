@@ -2,3 +2,5 @@ transformers
 pytorch
 scipy
 pytts3
+elevenlabs
+python-dotenv
