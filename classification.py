@@ -11,7 +11,7 @@ def emotion(text):
     try:
         results=emo_classifier(text)
         result=results[0][0]
-        print(result)
+#        print(result)
         return{
             "label":result['label'],
             "score":round(result['score'],4)
