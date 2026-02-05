@@ -11,7 +11,7 @@ client=ElevenLabs(api_key=os.getenv("ELEVEN_API_KEY"))
 def bolnegai11(text,params):
     print(f"Speaking with:{params}")
     try:
-        audio_stream=client.text_to_speech.convert(
+        return client.text_to_speech.convert(
             text=text,
             voice_id="JBFqnCBsd6RMkjVDRZzb",
             model_id="eleven_multilingual_v2",
@@ -23,16 +23,6 @@ def bolnegai11(text,params):
                 speed=params['speed']
             )
         )
-        print("Speaking....")
-        play(audio_stream)
-        
-        save_path = "output.mp3"
-        with open(save_path, "wb") as f:
-            for chunk in audio_stream:
-                if chunk:
-                    f.write(chunk)
-        
-        print(f"   [ElevenLabs] Audio saved to {save_path}")
     except Exception as e:
         print(f"ElevenLabs generation failed:{e}")
 
