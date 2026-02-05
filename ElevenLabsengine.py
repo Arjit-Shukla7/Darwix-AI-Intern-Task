@@ -25,6 +25,7 @@ def bolnegai11(text,params):
         )
     except Exception as e:
         print(f"ElevenLabs generation failed:{e}")
+        return None
 
 if __name__ == "__main__":
     test_params = {
