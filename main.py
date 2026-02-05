@@ -4,7 +4,7 @@ import ttsmapping
 
 def final():
     while True:
-        text=input("\nEnter text to convert to speach or press 'c' to cancel")
+        text=input("\nEnter text to convert to speach or press 'c' to cancel  ")
         if text.lower()=='c':
             break
 
