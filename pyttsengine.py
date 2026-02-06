@@ -1,7 +1,14 @@
 import pyttsx3
+import os
+import uuid
+
+OUTPUT_DIR = "audio_outputs"
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 def bolnelagi(text,params):
     engine=pyttsx3.init()
+    filename=f"temp_{uuid.uuid4()}.wav"
+    file_path = os.path.join(OUTPUT_DIR, filename)
 
     defa_rate=engine.getProperty('rate')
     defa_volumne=engine.getProperty('volume')
@@ -13,8 +20,10 @@ def bolnelagi(text,params):
     engine.setProperty('volume',new_volume)
 
     print(f"Speaking:'{text}")
+    engine.save_to_file(text, filename)
     engine.say(text)
     engine.runAndWait()
+    return file_path
 
 if __name__ == "__main__":
     sad_params = {"rate": 0.7, "pitch": 0.8, "volume": 0.7} 
